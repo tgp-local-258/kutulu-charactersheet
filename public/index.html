@@ -59,6 +59,7 @@
         <h2>備考</h2>
         <textarea v-model="script" class="chara_script"></textarea>
         <button @click="sheetDownload">キャラクターを保存する</button>
+        <button @click="ccfoliaDownload">ccfoliaコマ出力</button>
         <input type="file" accept="*.json" name="character_sheet" v-on:change="sheetUpload($event)">
         <p>※保存は「キャラクター名.json」とjson形式のファイルで出力されます。<br>　出力されたファイルを参照し読み込むことで、再編集が可能です。<br>　再編集後、もう一度「キャラクターを保存する」ボタンを押すと保存されます。</p>
     </div>
@@ -302,6 +303,86 @@
                     } else {
                         $('.specialty_point').css('color', 'black');
                     }
+                },
+                ccfoliaDownload: function(){
+                    if (this.name == '') {
+                        alert('!!!名前は必ず入力してください!!!');
+                        return false;
+                    }
+
+                    //負傷:cc_status
+                    let damage_cnt = 0;
+                    for (i=0;i<this.damages.length;i++) {
+                        if(this.damages[i].checked === true){
+                            damage_cnt = damage_cnt + 1;
+                        }
+                    }
+
+                    //能力値
+                    let params = [];
+                    // console.log("lv1以上の能力値");
+                    for (i=0;i<this.skills.length;i++){
+                        if(this.skills[i].value > 0){
+                            let skill_data = {
+                                label: this.skills[i].name,
+                                value: String(this.skills[i].value)
+                            }
+                            params.push(skill_data);
+                        }
+                        // console.log("能力値 " + JSON.stringify(params));
+                    }
+
+                    //専門分野
+                    // console.log("lv1以上の専門分野");
+                    for (l=0;l<this.specialties.length;l++) {
+                        if(this.specialties[l].value > 0){                       
+                            let speciality_data = {
+                                label: this.specialties[l].name,
+                                value: String(this.specialties[l].value)
+                            }
+                            params.push(speciality_data);
+                        }
+                    }
+                    // console.log("専門分野セット " + JSON.stringify(params));
+
+                    let originalData = {
+                        kind: "character",
+                        data: {
+                            name: this.name,
+                            memo: this.title,
+                            initiative: 0,
+                            externalUrl: "",
+                            status: [
+                                {
+                                    "label": "負傷",
+                                    "value": damage_cnt,
+                                    "max": 3
+                                }
+                            ],
+                            params: params,
+                            "iconUrl": null,
+                            "faces": [
+                                {
+                                    "iconUrl": null,
+                                    "label": ""
+                                }
+                            ],
+                            "x": 2,
+                            "y": 2,
+                            "active": true
+                        },
+                    }
+
+                    // console.log("originalData " + JSON.stringify(originalData));
+
+                    // const fileName = this.name + '.json';
+                    const data = JSON.stringify(originalData);
+                    navigator.clipboard.writeText(data);
+                    alert('ココフォリアのコマをクリップボードにコピーしました');
+                    // const link = document.createElement("a");
+                    // link.href = "data:text/plain," + encodeURIComponent(data);
+                    // link.download = fileName;
+                    // link.click();
                 },
                 sheetDownload: function(){
                     if (this.name == '') {
