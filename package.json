@@ -1,0 +1,19 @@
+{
+  "name": "kutulu_charactersheet_plus",
+  "engines": {
+    "node": "16.17.0",
+    "npm": "8.15.0"
+  },
+  "version": "1.0.0",
+  "description": "【Kutulu Charactersheet Plusを始める手順】",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
