@@ -61,7 +61,7 @@
         <button @click="sheetDownload">キャラクターを保存する</button>
         <button @click="ccfoliaDownload">ccfoliaコマ出力</button>
         <input type="file" accept="*.json" name="character_sheet" v-on:change="sheetUpload($event)">
-        <p>※保存は「キャラクター名.json」とjson形式のファイルで出力されます。<br>　出力されたファイルを参照し読み込むことで、再編集が可能です。<br>　再編集後、もう一度「キャラクターを保存する」ボタンを押すと保存されます。</p>
+        <p>※保存は「キャラクター名.json」とjson形式のファイルで出力されます。<br>　出力されたファイルを参照し読み込むことで、再編集が可能です。<br>　再編集後、もう一度「キャラクターを保存する」ボタンを押すと保存されます。<br> ※ココフォリアにコマ出力するには、ccfoliaコマ出力ボタンを押した後、ココフォリアに貼り付けして下さい</p>
     </div>
     <script>
         var app = new Vue({
@@ -305,8 +305,17 @@
                     }
                 },
                 ccfoliaDownload: function(){
-                    if (this.name == '') {
-                        alert('!!!名前は必ず入力してください!!!');
+                    // if (this.name == '') {
+                    //     alert('!!!名前は必ず入力してください!!!');
+                    //     return false;
+                    // }
+                    if (this.skill_total > 13) {
+                        alert('!!!能力値は13ポイントまでです!!!');
+                        return false;
+                    }
+
+                    if (this.specialty_total > 10){
+                        alert('!!!専門分野は10ポイントまでです!!!');
                         return false;
                     }
 
