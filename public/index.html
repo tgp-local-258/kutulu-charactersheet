@@ -15,22 +15,27 @@
     <div class="main" id="app">
         <div class="status_base">
             <h2>個人情報</h2>
-            <div class="player_name">プレイヤー名：<input type="text" class="player_name" v-model="player_name"></div>
+            <!-- <div class="player_name">プレイヤー名：<input type="text" class="player_name" v-model="player_name"></div> -->
+            <div class="chara_name">キャラクター名：<input type="text" class="chara_name" v-model="name"></div>
 <p></p>
 	<div class="left-column">
-		<div class="chara_name">キャラクター名：<input type="text" class="chara_name" v-model="name"></div>
-	</div>
+		<div class="chara_birth">出身地：<input type="text" class="chara_birthplace" v-model="birthplace"></div>
+    </div>
+    <div class="left-column">
+		<div class="chara_rank">階級：<input type="text" class="chara_rank" v-model="rank"></div>
+    </div>
+    <div class="left-column">
+		<div class="chara_parentage">家柄：<input type="text" class="chara_parentage" v-model="parentage"></div>
+    </div>
 	<div class="left-column">
 		<div class="chara_title">称号 / 肩書：<input type="text" class="chara_title" v-model="title"></div>
 	</div>
-
-
 
         <div class="left-column">
 <p></p>
 <div class="skill_point">能力値：<div class="now_skill_point">{{this.skill_total}}</div>/<div class="limit_skill_point">{{this.skill_limit}}</div></div> 
 <p></p>
-           <h2>能力値</h2>
+            <h2>能力値</h2>
             <ul v-for="(skill, index) in skills" :key="index">
                 <div :class="skill.skill">
                     {{ skill.name }}
@@ -68,8 +73,10 @@
             el: '#app',
             data: {
                 name: '',
-                title: '',
-                player_name: '',
+                title: '',// player_name: '',
+                birthplace: '',
+                rank: '',
+                parentage: '',
                 skills: [
                     {
                         id: 1,
@@ -305,10 +312,6 @@
                     }
                 },
                 ccfoliaDownload: function(){
-                    // if (this.name == '') {
-                    //     alert('!!!名前は必ず入力してください!!!');
-                    //     return false;
-                    // }
                     if (this.skill_total > 13) {
                         alert('!!!能力値は13ポイントまでです!!!');
                         return false;
@@ -354,11 +357,31 @@
                     }
                     // console.log("専門分野セット " + JSON.stringify(params));
 
+                    let chara_memo = "";
+
+                    if (!!Object.keys(this.birthplace).length) {
+                        chara_memo += "出身地: " + this.birthplace + "\n";
+                    }
+                    if (!!Object.keys(this.rank).length) {
+                        chara_memo += "階級: " + this.rank + "\n";
+                    }
+                    if (!!Object.keys(this.parentage).length) {
+                        chara_memo += "家柄: " + this.parentage + "\n";
+                    }
+                    if (!!Object.keys(this.title).length) {
+                        chara_memo += "称号/肩書: " + this.title + "\n"
+                    }
+                    if (!!Object.keys(this.script).length){
+                        chara_memo += this.script + "\n"
+                    }
+                    console.log("chara_memo");
+                    console.log(chara_memo);
+
                     let originalData = {
                         kind: "character",
                         data: {
                             name: this.name,
-                            memo: this.title,
+                            memo: chara_memo,
                             initiative: 0,
                             externalUrl: "",
                             status: [
@@ -382,7 +405,7 @@
                         },
                     }
 
-                    // console.log("originalData " + JSON.stringify(originalData));
+                    console.log("originalData " + JSON.stringify(originalData));
 
                     // const fileName = this.name + '.json';
                     const data = JSON.stringify(originalData);
@@ -394,12 +417,15 @@
                     // link.click();
                 },
                 sheetDownload: function(){
-                    if (this.name == '') {
-                        alert('!!!名前は必ず入力してください!!!');
-                        return false;
-                    }
+                    console.log(this.birthplace);
+                    console.log(this.rank);
+                    console.log(this.parentage);
+
                     let originalData = {
                         name: this.name,
+                        birthplace: this.birthplace,
+                        rank: this.rank,
+                        parentage: this.parentage,
                         title: this.title,
                         player_name: this.player_name,
                         skill_total: this.skill_total,
@@ -458,6 +484,9 @@
                         var data = JSON.parse(file_reader.result);
                         app.name = data.name;
                         app.title = data.title;
+                        app.birthplace = data.birthplace;
+                        app.rank = data.rank;
+                        app.parentage = data.parentage;
                         app.player_name = data.player_name;
                         app.skill_total = data.skill_total;
                         app.specialty_total = data.specialty_total;
