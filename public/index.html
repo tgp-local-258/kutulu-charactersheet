@@ -403,14 +403,12 @@
                         },
                     }
 
-                    // const fileName = this.name + '.json';
+                    const fileName = this.name + '.json';
                     const data = JSON.stringify(originalData);
-                    navigator.clipboard.writeText(data);
-                    alert('ココフォリアのコマをクリップボードにコピーしました');
-                    // const link = document.createElement("a");
-                    // link.href = "data:text/plain," + encodeURIComponent(data);
-                    // link.download = fileName;
-                    // link.click();
+                    const link = document.createElement("a");
+                    link.href = "data:text/plain," + encodeURIComponent(data);
+                    link.download = fileName;
+                    link.click();
                 },
                 sheetDownload: function(){
                     console.log(this.birthplace);
