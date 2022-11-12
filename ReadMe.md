@@ -1,6 +1,6 @@
 # Kutulu-characterSheet  
 
-てるいの小屋様が作成しているHTML版にココフォリアコマデータ出力を追加したもの  
+てるいの小屋様が作成しているHTML版にココフォリアコマデータ出力を追加したものです。  
 
 GitPage  
 https://tgp-local-258.github.io/kutulu-charactersheet/   
