@@ -332,6 +332,8 @@
 
                     //能力値
                     let params = [];
+                    let command = ""; //チャットパレット
+                    const activeSkills = ['射撃','白兵','隠密','敏捷','筋力'];
                     // console.log("lv1以上の能力値");
                     for (i=0;i<this.skills.length;i++){
                         if(this.skills[i].value > 0){
@@ -340,6 +342,10 @@
                                 value: String(this.skills[i].value)
                             }
                             params.push(skill_data);
+
+                            if (activeSkills.includes(this.skills[i].name) === true) {
+                                command += String(this.skills[i].value) + "B6>=4【" + this.skills[i].name + "】\n";
+                            }
                         }
                         // console.log("能力値 " + JSON.stringify(params));
                     }
@@ -380,6 +386,7 @@
                         data: {
                             name: this.name,
                             memo: chara_memo,
+                            commands: command,
                             initiative: 0,
                             externalUrl: "",
                             status: [
