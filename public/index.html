@@ -344,7 +344,7 @@
                             params.push(skill_data);
 
                             if (activeSkills.includes(this.skills[i].name) === true) {
-                                command += String(this.skills[i].value) + "B6>=4【" + this.skills[i].name + "】\n";
+                                command += String(this.skills[i].value) + "B6>=4 【" + this.skills[i].name + "】\n";
                             }
                         }
                         // console.log("能力値 " + JSON.stringify(params));
@@ -412,10 +412,20 @@
 
                     const fileName = this.name + '.json';
                     const data = JSON.stringify(originalData);
-                    const link = document.createElement("a");
-                    link.href = "data:text/plain," + encodeURIComponent(data);
-                    link.download = fileName;
-                    link.click();
+
+                    navigator.clipboard.writeText(data)
+                    .then(() => {
+                        console.log('成功');
+                        alert('ココフォリアのコマをクリップボードにコピーしました')
+                    })
+                    .catch(err => {
+                        console.error('ユーザが拒否、もしくはなんらかの理由で失敗');
+                    });
+
+                    // const link = document.createElement("a");
+                    // link.href = "data:text/plain," + encodeURIComponent(data);
+                    // link.download = fileName;
+                    // link.click();
                 },
                 sheetDownload: function(){
                     console.log(this.birthplace);
